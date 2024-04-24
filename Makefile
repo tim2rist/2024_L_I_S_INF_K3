@@ -10,11 +10,16 @@ lint:
 	flake8 hello_world test
 docker_build:
 	docker build -t hello-world-printer .
-USERNAME=Pok1swsb
-DOCKER_PASSWORD=Xewy6Cude9
-TAG=$(USERNAME)/hello-world-printer-k3
+docker_run: docker_build
+	docker run \
+	--name hello-world-printer-dev \
+	-p 5000:5000 \
+	-d hello-world-printer
 docker_push: docker_build
-	@docker login --username $(USERNAME) --password-stdin $${DOCKER_PASSWORD}; \
+	@docker login --username $(USERNAME) --password $${DOCKER_PASSWORD}; \
 	docker tag hello-world-printer $(TAG); \
 	docker push $(TAG); \
 	docker logout;
+USERNAME=Issue
+DOCKER_PASSWORD=Issue1
+TAG=$(USERNAME)/hello-world-printer-k3
