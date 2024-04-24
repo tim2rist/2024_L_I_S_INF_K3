@@ -1,11 +1,11 @@
-deps:
-	pip install -r requirements.txt; \
-	pip install -r test_requirements.txt
 run:
 	python main.py
 .PHONY:test
 test:
 	PYTHONPATH=. py.test --verbose -s
+deps:
+	pip install -r requirements.txt; \
+	pip install -r test_requirements.txt
 lint:
 	flake8 hello_world test
 docker_build:
@@ -15,11 +15,10 @@ docker_run: docker_build
 	--name hello-world-printer-dev \
 	-p 5000:5000 \
 	-d hello-world-printer
+USERNAME=Issue
+TAG=$(USERNAME)/hello-world-printer-8am
 docker_push: docker_build
 	@docker login --username $(USERNAME) --password $${DOCKER_PASSWORD}; \
 	docker tag hello-world-printer $(TAG); \
 	docker push $(TAG); \
 	docker logout;
-USERNAME=Issue
-DOCKER_PASSWORD=Issue1
-TAG=$(USERNAME)/hello-world-printer-k3
